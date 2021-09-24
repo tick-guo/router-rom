@@ -27,3 +27,15 @@ update github-actions
 
 ![img](https://github.com/tick-guo/router-rom/blob/main/padavan-hanwckf/2021.09.23/AP-IPV6.JPG)
 
+7.默认IP地址：
+
+```
+192.168.2.1
+登录：
+用户名：admin
+密码：admin
+默认无线密码：1234567890
+```
+
+
+
