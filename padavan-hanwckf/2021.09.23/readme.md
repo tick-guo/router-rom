@@ -25,5 +25,5 @@ update github-actions
 
 6.预览(如果不显示图片,可能是墙的原因)
 
-![img](https://github.com/tick-guo/router-rom/blob/main/padavan-hanwckf/2021.09.23/AP-IPV6.jpg)
+![img](https://github.com/tick-guo/router-rom/blob/main/padavan-hanwckf/2021.09.23/AP-IPV6.JPG)
 
