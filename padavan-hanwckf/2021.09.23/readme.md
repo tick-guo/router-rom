@@ -1,4 +1,4 @@
-1.git 版本
+1.git 版本(20210924最新)
 
 [https://github.com/hanwckf/rt-n56u.git](https://github.com/hanwckf/rt-n56u.git)
 
