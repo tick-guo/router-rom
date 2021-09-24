@@ -1,6 +1,6 @@
 1.git 版本
 
-[https://github.com/hanwckf/rt-n56u.git]()
+[https://github.com/hanwckf/rt-n56u.git](https://github.com/hanwckf/rt-n56u.git)
 
 ```
 https://github.com/hanwckf/rt-n56u.git
@@ -22,4 +22,8 @@ update github-actions
 4.经测试自用效果非常好
 
 5.ipv6 可以设置 AP 模式,由光猫分配 IP
+
+6.预览
+
+![img](https://github.com/tick-guo/router-rom/blob/main/padavan-hanwckf/2021.09.23/AP-IPV6.png)
 
