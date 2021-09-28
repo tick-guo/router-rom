@@ -34,29 +34,38 @@ jobs:
         sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
         fakeroot kmod cpio git python3-docutils gettext automake autopoint \
         texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev \
-        libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin 
+        libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin  > /dev/null
   
     - name: 下载源码,从hanwckf
       run: |
-        git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+        git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u  > /dev/null
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh > /dev/null
-        mkdir -p /opt/images/
+        sudo mkdir -p /opt/images/
+        sudo chmod 777 /opt/images/
         pwd
         
     - name: 开始编译
       env:
         TNAME: "${{ github.event.inputs.name }}"
       run: |
+        echo ${TNAME}
         cd /opt/rt-n56u/trunk
-        if [ ! -f configs/templates/$TNAME.config ] ; then
-          echo "configs/templates/$TNAME.config not found "
+        if [ ! -f configs/templates/${TNAME}.config ] ; then
+          echo "configs/templates/${TNAME}.config not found "
           exit 1
         fi
         sudo ./clear_tree
-        sudo ./build_firmware_modify $TNAME
+        sudo ./build_firmware_modify ${TNAME}
         ls -l images
         sudo mv -f images/*.trx /opt/images/
+        #记录一个版本号
+        cd /opt/images/
+        echo 编译时间 >> readme.txt
+        date >> readme.txt
+        echo 编译版本 >> readme.txt
+        git log -1 >> readme.txt
+        
         
     - name : 上传编译的固件
       uses: actions/upload-artifact@master
