@@ -52,8 +52,8 @@ jobs:
         echo configs/templates/${TNAME}.config
         cd /opt/rt-n56u/trunk
   
-        sudo ./clear_tree || echo 
-        sudo ./build_firmware_modify ${{ github.event.inputs.name }}    > /dev/null
+        #sudo ./clear_tree || echo 
+        #sudo ./build_firmware_modify ${{ github.event.inputs.name }}    > /dev/null
         
         ls -l images
         sudo mv -f images/*.trx /opt/images/
@@ -64,6 +64,9 @@ jobs:
         echo 编译版本 >> /opt/images/readme.txt
         git log -1 >> /opt/images/readme.txt
         echo 校验值 >> /opt/images/readme.txt
+        cd /opt/images
+        #测试
+        echo > text.trx
         md5sum *.trx >> /opt/images/readme.txt
         ls -l
         
