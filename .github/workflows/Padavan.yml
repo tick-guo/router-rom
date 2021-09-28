@@ -74,8 +74,19 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: Padavan-packages
+        name: Padavan-Images
         path: /opt/images
         
         
+    - name: Simple Upload to Release
+      uses: Guerra24/upload-to-release@v1.0.0
+      with:
+        # Artifact name
+        name: Padavan-Images
+        # Path to the file to upload
+        path: /opt/images
+        # Content type for the file
+        #content-type: # optional, default is application/octet-stream
+        # secrets.GITHUB_TOKEN
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
   
