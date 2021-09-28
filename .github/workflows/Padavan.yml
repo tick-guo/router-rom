@@ -26,7 +26,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: 开始, 自动编译 K2P 和 K2
+    - name: 开始自动编译 K2P 和 K2
       run: echo "目标 ${{ github.event.inputs.name }}"
       
     - name: 生成版本号
@@ -34,10 +34,13 @@ jobs:
         echo "统一版本号"
         VERSION=$(TZ='Asia/Shanghai' date -d "8 hour" -u +%Y%m%d.%H)
         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
-        echo ${{ env.RELEASE_VERSION }}
+        # $GITHUB_ENV变量必须要在下一个流程才生效
         echo "DIR=/opt/rt-n56u" >> $GITHUB_ENV
+
+    - name: 创建目录
+      run: |
+        echo ${{ env.RELEASE_VERSION }}
         mkdir -p ${{ env.DIR }}
-        
         
     - name: 准备编译环境
       if: false
@@ -56,8 +59,6 @@ jobs:
         sudo chmod 777 /opt/images/
         pwd
     
-
-        
     - name: 开始编译 K2P
       if: false
       env: 
@@ -103,7 +104,7 @@ jobs:
         ls -l
         
         
-    - name : 上传编译的固件
+    - name : 上传编译的固件,到临时目录
       uses: actions/upload-artifact@master
       if: false
       with:
