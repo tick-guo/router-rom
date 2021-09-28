@@ -19,7 +19,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
-  greet:
+  padavan:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -40,8 +40,9 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
         cd /opt/rt-n56u/toolchain-mipsel
-        sh dl_toolchain.sh
+        sh dl_toolchain.sh > /dev/null
         mkdir -p /opt/images/
+        pwd
         
     - name: 开始编译
       env:
@@ -49,10 +50,12 @@ jobs:
       run: |
         cd /opt/rt-n56u/trunk
         if [ ! -f configs/templates/$TNAME.config ] ; then
-        echo "configs/templates/$TNAME.config not found "
-        exit 1
+          echo "configs/templates/$TNAME.config not found "
+          exit 1
+        fi
         sudo ./clear_tree
         sudo ./build_firmware_modify $TNAME
+        ls -l images
         sudo mv -f images/*.trx /opt/images/
         
     - name : 上传编译的固件
