@@ -31,7 +31,7 @@ jobs:
       
     - name: 准备编译环境
       run: | 
-        #sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
+        echo sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
         fakeroot kmod cpio git python3-docutils gettext automake autopoint \
         texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev \
         libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin  > /dev/null
