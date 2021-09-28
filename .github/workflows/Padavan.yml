@@ -1,0 +1,66 @@
+# This is a basic workflow that is manually triggered
+
+name: Padavan固件编译工作流
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: '路由器目标'
+        # Default value if no value is explicitly provided
+        default: 'K2P'
+        # Input has to be provided for the workflow to run
+        required: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  greet:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - name: 开始
+      run: echo "目标 ${{ github.event.inputs.name }}"
+      
+    - name: 准备编译环境
+      run: | 
+        sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
+        fakeroot kmod cpio git python3-docutils gettext automake autopoint \
+        texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev \
+        libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin 
+  
+    - name: 下载源码,从hanwckf
+      run: |
+        git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+        cd /opt/rt-n56u/toolchain-mipsel
+        sh dl_toolchain.sh
+        mkdir -p /opt/images/
+        
+    - name: 开始编译
+      env:
+        TNAME: "${{ github.event.inputs.name }}"
+      run: |
+        cd /opt/rt-n56u/trunk
+        if [ ! -f configs/templates/$TNAME.config ] ; then
+        echo "configs/templates/$TNAME.config not found "
+        exit 1
+        sudo ./clear_tree
+        sudo ./build_firmware_modify $TNAME
+        sudo mv -f images/*.trx /opt/images/
+        
+    - name : 上传编译的固件
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: Padavan-packages
+        path: /opt/images
+        
+        
+  
