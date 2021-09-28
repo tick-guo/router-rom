@@ -51,6 +51,7 @@ jobs:
       run: |
         echo ${TNAME}
         cd /opt/rt-n56u/trunk
+        ls -l configs/templates
         if [ ! -f configs/templates/${TNAME}.config ] ; then
           echo "configs/templates/${TNAME}.config not found "
           exit 1
@@ -65,6 +66,7 @@ jobs:
         date >> readme.txt
         echo 编译版本 >> readme.txt
         git log -1 >> readme.txt
+        ls -l
         
         
     - name : 上传编译的固件
