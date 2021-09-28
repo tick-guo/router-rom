@@ -20,8 +20,8 @@ on:
 jobs:
   # This workflow contains a single job called "greet"
   padavan:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    # The type of runner that the job will run on ubuntu-latest
+    runs-on: ubuntu-20.04.3
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -46,32 +46,25 @@ jobs:
         pwd
         
     - name: 开始编译 
+      env: 
+        TNAME: "${{ github.event.inputs.name }}"
       run: |
-        #中转环境变量
-        TNAME="${{ github.event.inputs.name }}"
-        #确认变量
-        echo ${TNAME}
         echo configs/templates/${TNAME}.config
         cd /opt/rt-n56u/trunk
-        
-        #ls configs/templates
-        if [ ! -f "configs/templates/${TNAME}.config" ];then
-          echo 配置不存在: configs/templates/${TNAME}.config
-          exit 1
-        fi
-        
-        sudo ./clear_tree
+  
+        sudo ./clear_tree || echo 
         sudo ./build_firmware_modify ${{ github.event.inputs.name }}
+        
         ls -l images
         sudo mv -f images/*.trx /opt/images/
+        
         #记录一个版本号
-        cd /opt/images/
-        echo 编译时间 >> readme.txt
-        date >> readme.txt
-        echo 编译版本 >> readme.txt
-        git log -1 >> readme.txt
-        echo 校验值 >> readme.txt
-        md5sum *.trx >> readme.txt
+        echo 编译时间 >> /opt/images/readme.txt
+        date >> /opt/images/readme.txt
+        echo 编译版本 >> /opt/images/readme.txt
+        git log -1 >> /opt/images/readme.txt
+        echo 校验值 >> /opt/images/readme.txt
+        md5sum *.trx >> /opt/images/readme.txt
         ls -l
         
         
