@@ -27,7 +27,9 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: 开始自动编译 K2P 和 K2
-      run: echo "目标 ${{ github.event.inputs.name }}"
+      run: |
+        echo "目标 ${{ github.event.inputs.name }}"
+        pwd
       
     - name: 生成版本号
       run: |
@@ -43,7 +45,7 @@ jobs:
         mkdir -p ${{ env.DIR }}
         
     - name: 准备编译环境
-      if: false
+      if: true
       run: | 
         sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
         fakeroot kmod cpio git python3-docutils gettext automake autopoint \
@@ -60,7 +62,7 @@ jobs:
         pwd
     
     - name: 开始编译 K2P
-      if: false
+      if: true
       env: 
         TNAME: K2P
       run: |
@@ -73,7 +75,7 @@ jobs:
         sudo mv -f images/*.trx /opt/images/
 
     - name: 开始编译 K2
-      if: false
+      if: true
       env: 
         TNAME: K2
       run: |
@@ -88,6 +90,7 @@ jobs:
     - name: 收集信息
       if: true
       run: |
+        cd /opt/images
         #记录一个版本号
         echo 编译时间 >> /opt/images/readme.txt
         TZ='Asia/Shanghai' date >> /opt/images/readme.txt
@@ -112,6 +115,7 @@ jobs:
         path: /opt/images
         
     - name: 发布到Release
+      if: true
       uses: softprops/action-gh-release@59c3b4891632ff9a897f99a91d7bc557467a3a22
       with:
         name: K2P+K2_${{ env.RELEASE_VERSION }}
