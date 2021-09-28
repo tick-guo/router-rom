@@ -53,7 +53,7 @@ jobs:
         cd /opt/rt-n56u/trunk
   
         sudo ./clear_tree || echo 
-        sudo ./build_firmware_modify ${{ github.event.inputs.name }}
+        sudo ./build_firmware_modify ${{ github.event.inputs.name }}    > /dev/null
         
         ls -l images
         sudo mv -f images/*.trx /opt/images/
