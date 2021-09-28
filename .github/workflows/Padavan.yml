@@ -7,14 +7,14 @@ name: Padavan固件编译工作流
 on:
   workflow_dispatch:
     # Inputs the workflow accepts.
-    inputs:
-      name:
+    #inputs:
+      #name:
         # Friendly description to be shown in the UI instead of 'name'
-        description: '路由器目标'
+        #description: '路由器目标'
         # Default value if no value is explicitly provided
-        default: 'K2P'
+        #default: 'K2P'
         # Input has to be provided for the workflow to run
-        required: true
+        #required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -26,12 +26,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: 开始
+    - name: 开始, 自动编译 K2P 和 K2
       run: echo "目标 ${{ github.event.inputs.name }}"
       
     - name: 准备编译环境
+      if: false
       run: | 
-        echo sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
+        sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
         fakeroot kmod cpio git python3-docutils gettext automake autopoint \
         texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev \
         libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin  > /dev/null
@@ -48,24 +49,41 @@ jobs:
     - name: 生成版本号
       run: |
         echo "统一版本号"
-        VERSION=$(date -d "8 hour" -u +%y%m%d.%H)
+        VERSION=$(TZ='Asia/Shanghai' date -d "8 hour" -u +%Y%m%d.%H)
         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
         
-    - name: 开始编译 
+    - name: 开始编译 K2P
+      if: false
       env: 
-        TNAME: "${{ github.event.inputs.name }}"
+        TNAME: K2P
       run: |
         echo configs/templates/${TNAME}.config
         cd /opt/rt-n56u/trunk
   
-        #sudo ./clear_tree || echo 
-        #sudo ./build_firmware_modify ${{ github.event.inputs.name }}    > /dev/null
-        #ls -l images
-        #sudo mv -f images/*.trx /opt/images/
-        
+        sudo ./clear_tree || echo 
+        sudo ./build_firmware_modify ${TNAME}    > /dev/null
+        ls -l images
+        sudo mv -f images/*.trx /opt/images/
+
+    - name: 开始编译 K2
+      if: false
+      env: 
+        TNAME: K2
+      run: |
+        echo configs/templates/${TNAME}.config
+        cd /opt/rt-n56u/trunk
+  
+        sudo ./clear_tree || echo 
+        sudo ./build_firmware_modify ${TNAME}    > /dev/null
+        ls -l images
+        sudo mv -f images/*.trx /opt/images/
+      
+    - name: 收集信息
+      if: true
+      run: |
         #记录一个版本号
         echo 编译时间 >> /opt/images/readme.txt
-        date >> /opt/images/readme.txt
+        TZ='Asia/Shanghai' date >> /opt/images/readme.txt
         echo 编译版本 >> /opt/images/readme.txt
         git log -1 >> /opt/images/readme.txt
         echo 校验值 >> /opt/images/readme.txt
@@ -78,7 +96,7 @@ jobs:
         
     - name : 上传编译的固件
       uses: actions/upload-artifact@master
-      if: always()
+      if: false
       with:
         name: Padavan-Images
         path: /opt/images
