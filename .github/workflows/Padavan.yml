@@ -52,13 +52,14 @@ jobs:
         #确认变量
         echo ${TNAME}
         echo configs/templates/${TNAME}.config
-        #
         cd /opt/rt-n56u/trunk
-        ls configs/templates
-        if [ ! -f "configs/templates/${TNAME}.config" ];then
-          echo "configs/templates/${TNAME}.config not found"
-          exit 1
-        fi
+        
+        #ls configs/templates
+        #if [ ! -f "configs/templates/${TNAME}.config" ];then
+        #  echo "configs/templates/${TNAME}.config not found"
+        #  exit 1
+        #fi
+        
         sudo ./clear_tree
         sudo ./build_firmware_modify ${TNAME}
         ls -l images
@@ -69,6 +70,8 @@ jobs:
         date >> readme.txt
         echo 编译版本 >> readme.txt
         git log -1 >> readme.txt
+        echo 校验值 >> readme.txt
+        md5sum *.trx >> readme.txt
         ls -l
         
         
