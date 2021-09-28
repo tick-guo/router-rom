@@ -31,7 +31,7 @@ jobs:
       
     - name: 准备编译环境
       run: | 
-        sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
+        #sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
         fakeroot kmod cpio git python3-docutils gettext automake autopoint \
         texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev \
         libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin  > /dev/null
@@ -54,9 +54,8 @@ jobs:
   
         #sudo ./clear_tree || echo 
         #sudo ./build_firmware_modify ${{ github.event.inputs.name }}    > /dev/null
-        
-        ls -l images
-        sudo mv -f images/*.trx /opt/images/
+        #ls -l images
+        #sudo mv -f images/*.trx /opt/images/
         
         #记录一个版本号
         echo 编译时间 >> /opt/images/readme.txt
