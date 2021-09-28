@@ -55,13 +55,13 @@ jobs:
         cd /opt/rt-n56u/trunk
         
         #ls configs/templates
-        #if [ ! -f "configs/templates/${TNAME}.config" ];then
-        #  echo "configs/templates/${TNAME}.config not found"
-        #  exit 1
-        #fi
+        if [ ! -f "configs/templates/${TNAME}.config" ];then
+          echo 配置不存在: configs/templates/${TNAME}.config
+          exit 1
+        fi
         
         sudo ./clear_tree
-        sudo ./build_firmware_modify ${TNAME}
+        sudo ./build_firmware_modify ${{ github.event.inputs.name }}
         ls -l images
         sudo mv -f images/*.trx /opt/images/
         #记录一个版本号
