@@ -44,6 +44,12 @@ jobs:
         sudo mkdir -p /opt/images/
         sudo chmod 777 /opt/images/
         pwd
+    
+    - name: 生成版本号
+      run: |
+        echo "统一版本号"
+        VERSION=$(date -d "8 hour" -u +%y%m%d.%H)
+        echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
         
     - name: 开始编译 
       env: 
@@ -77,16 +83,14 @@ jobs:
         name: Padavan-Images
         path: /opt/images
         
-        
-    - name: Simple Upload to Release
-      uses: Guerra24/upload-to-release@v1.0.0
+    - name: 发布到Release
+      uses: softprops/action-gh-release@59c3b4891632ff9a897f99a91d7bc557467a3a22
       with:
-        # Artifact name
-        name: Padavan-Images
-        # Path to the file to upload
-        path: /opt/images
-        # Content type for the file
-        #content-type: # optional, default is application/octet-stream
-        # secrets.GITHUB_TOKEN
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-  
+        name: K2P+K2_${{ env.RELEASE_VERSION }}
+        tag_name: ${{ env.RELEASE_VERSION }}
+        body_path: /opt/images/readme.txt
+        draft: false
+        prerelease: false
+        files: /opt/images/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
