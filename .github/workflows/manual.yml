@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: 手动触发工作流测试
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
