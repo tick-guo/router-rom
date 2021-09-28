@@ -45,11 +45,13 @@ jobs:
         sudo chmod 777 /opt/images/
         pwd
         
-    - name: 开始编译
-      env:
-        TNAME: "${{ github.event.inputs.name }}"
+    - name: 开始编译 
       run: |
+        #中转环境变量
+        TNAME="${{ github.event.inputs.name }}"
+        #确认变量
         echo ${TNAME}
+        #
         cd /opt/rt-n56u/trunk
         ls -l configs/templates
         if [ ! -f configs/templates/${TNAME}.config ] ; then
