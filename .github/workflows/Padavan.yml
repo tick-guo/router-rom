@@ -51,11 +51,12 @@ jobs:
         TNAME="${{ github.event.inputs.name }}"
         #确认变量
         echo ${TNAME}
+        echo configs/templates/${TNAME}.config
         #
         cd /opt/rt-n56u/trunk
-        ls -l configs/templates
-        if [ ! -f configs/templates/${TNAME}.config ] ; then
-          echo "configs/templates/${TNAME}.config not found "
+        ls configs/templates
+        if [ ! -f "configs/templates/${TNAME}.config" ];then
+          echo "configs/templates/${TNAME}.config not found"
           exit 1
         fi
         sudo ./clear_tree
