@@ -43,6 +43,12 @@ jobs:
       run: |
         echo ${{ env.RELEASE_VERSION }}
         mkdir -p ${{ env.DIR }}
+        sudo mkdir -p /opt/images/
+        sudo chmod 777 /opt/images/
+        
+        echo 开始编译时间 >> /opt/images/readme.txt
+        TZ='Asia/Shanghai' date >> /opt/images/readme.txt
+        
         
     - name: 准备编译环境
       if: true
@@ -57,8 +63,7 @@ jobs:
         git clone --depth=1 https://github.com/hanwckf/rt-n56u.git ${{ env.DIR }}  > /dev/null
         cd ${{ env.DIR }}/toolchain-mipsel
         sh dl_toolchain.sh > /dev/null
-        sudo mkdir -p /opt/images/
-        sudo chmod 777 /opt/images/
+     
         pwd
     
     - name: 开始编译 K2P
@@ -92,7 +97,7 @@ jobs:
       run: |
         cd /opt/images
         #记录一个版本号
-        echo 编译时间 >> /opt/images/readme.txt
+        echo 完成编译时间 >> /opt/images/readme.txt
         TZ='Asia/Shanghai' date >> /opt/images/readme.txt
         echo 编译版本 >> /opt/images/readme.txt
         
