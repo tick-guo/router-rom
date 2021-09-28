@@ -79,10 +79,10 @@ jobs:
         ls -l images
         sudo mv -f images/*.trx /opt/images/
 
-    - name: 开始编译 K2
+    - name: 开始编译 K2, 也就是PSG1218
       if: true
       env: 
-        TNAME: K2
+        TNAME: PSG1218
       run: |
         echo configs/templates/${TNAME}.config
         cd ${{ env.DIR }}/trunk
