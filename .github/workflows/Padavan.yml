@@ -34,7 +34,7 @@ jobs:
     - name: 生成版本号
       run: |
         echo "统一版本号"
-        VERSION=$(TZ='Asia/Shanghai' date -d "8 hour" -u +%Y%m%d.%H)
+        VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d.%H%M)
         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
         # $GITHUB_ENV变量必须要在下一个流程才生效
         echo "DIR=/opt/rt-n56u" >> $GITHUB_ENV
@@ -47,7 +47,7 @@ jobs:
         sudo chmod 777 /opt/images/
         
         echo 开始编译时间 >> /opt/images/readme.txt
-        TZ='Asia/Shanghai' date >> /opt/images/readme.txt
+        TZ='Asia/Shanghai'  date  '+%Y-%m-%d %H:%M:%S' >> /opt/images/readme.txt
         
         
     - name: 准备编译环境
@@ -98,14 +98,15 @@ jobs:
         cd /opt/images
         #记录一个版本号
         echo 完成编译时间 >> /opt/images/readme.txt
-        TZ='Asia/Shanghai' date >> /opt/images/readme.txt
+        TZ='Asia/Shanghai'  date  '+%Y-%m-%d %H:%M:%S' >> /opt/images/readme.txt
         echo 编译版本 >> /opt/images/readme.txt
         
         pushd ${{ env.DIR }}
+        git ls-remote --get-url origin >> /opt/images/readme.txt
         git log -1 >> /opt/images/readme.txt
         popd
         
-        echo 校验值 >> /opt/images/readme.txt
+        echo md5校验值 >> /opt/images/readme.txt
         cd /opt/images
         #测试
         md5sum *.trx >> /opt/images/readme.txt || echo
@@ -114,9 +115,9 @@ jobs:
         
     - name : 上传编译的固件,到临时目录
       uses: actions/upload-artifact@master
-      if: false
+      if: true
       with:
-        name: Padavan-Images
+        name: 固件下载
         path: /opt/images
         
     - name: 发布到Release
