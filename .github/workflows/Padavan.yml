@@ -8,13 +8,21 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
+      production:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 设置编译的固件型号,空格分隔.
+        # Default value if no value is explicitly provided
+        default: "K2P PSG1218"
+        # Input has to be provided for the workflow to run
+        required: true
       release:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 是否需要发布到Release?
+        description: 是否需要发布到Release?(不发布也可以到Artifacts下载)
         # Default value if no value is explicitly provided
         default: 'yes'
         # Input has to be provided for the workflow to run
         required: true
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -63,19 +71,17 @@ jobs:
       if: true
       env: 
         #用空格分隔型号,循环编译
-        TNAME: "K2P PSG1218"
+        TNAME: ${{ github.event.inputs.production }}
       run: |
         for m in $TNAME;
         do
-        
-          echo 编译:${m}
+          echo "::group::编译 ${m}"
           cd ${{ env.DIR }}/trunk
-
           sudo ./clear_tree || echo 
           sudo ./build_firmware_modify ${m}    > /dev/null
           ls -l images
           sudo mv -f images/*.trx /opt/images/
-        
+          echo "::endgroup::"
         done
       
     - name: 收集信息
