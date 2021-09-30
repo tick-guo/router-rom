@@ -19,7 +19,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 是否需要发布到Release?(不发布也可以到Artifacts下载)
         # Default value if no value is explicitly provided
-        default: 'yes'
+        default: 'true'
         # Input has to be provided for the workflow to run
         required: true
 
@@ -77,7 +77,7 @@ jobs:
         #用空格分隔型号,循环编译
         TNAME: "${{ github.event.inputs.production }}"
       run: |
-        if [ "$TNAME" == "" ];then
+        if [ "$TNAME" == "DEBUG" ];then
           exit 0
         fi
         for m in $TNAME;
@@ -120,7 +120,7 @@ jobs:
         path: /opt/images
         
     - name: 发布到Release
-      if: ${{ github.event.inputs.release }} == yes
+      if: ${{ github.event.inputs.release }}
       uses: softprops/action-gh-release@v1
       with:
         name: K2P+K2_${{ env.RELEASE_VERSION }}
