@@ -120,7 +120,7 @@ jobs:
         path: /opt/images
         
     - name: 发布到Release
-      if: ${{ github.event.inputs.release }} == 'yes'
+      if: ${{ github.event.inputs.release == 'yes' }}
       uses: softprops/action-gh-release@v1
       with:
         name: K2P+K2_${{ env.RELEASE_VERSION }}
