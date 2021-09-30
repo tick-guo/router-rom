@@ -1,7 +1,7 @@
 # This is a basic workflow that is manually triggered
 
 #name: Padavan固件编译
-name: Padavan编译
+name: Padavan固件编译
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
