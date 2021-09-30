@@ -115,7 +115,7 @@ jobs:
         
         
     - name : 上传编译的固件,到临时目录
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v2
       if: true
       with:
         name: 固件下载
@@ -123,7 +123,7 @@ jobs:
         
     - name: 发布到Release
       if: true
-      uses: softprops/action-gh-release@59c3b4891632ff9a897f99a91d7bc557467a3a22
+      uses: softprops/action-gh-release@v1
       with:
         name: K2P+K2_${{ env.RELEASE_VERSION }}
         tag_name: ${{ env.RELEASE_VERSION }}
