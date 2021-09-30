@@ -1,11 +1,9 @@
 # 状态
 https://github.com/tick-guo/router-rom
 
-![Padavan](https://github.com/tick-guo/router-rom/workflows/Padavan/badge.svg)
+![workflow](https://github.com/tick-guo/router-rom/actions/workflows/Padavan.yml/badge.svg)
 ![GitHub All Releases](https://img.shields.io/github/downloads/tick-guo/router-rom/total)
 [![release](https://img.shields.io/github/release/tick-guo/router-rom.svg)](https://github.com/tick-guo/router-rom/releases)
-
-
 
 # router-rom
 K2 K2P 
