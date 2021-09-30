@@ -8,12 +8,9 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      TO_RELEASE:
+      release:
         # Friendly description to be shown in the UI instead of 'name'
-        description: |
-          '是否需要发布到release'
-          ' yes:需要,默认参数'
-          ' 其他参数:不需要'
+        description: 是否需要发布到Release?
         # Default value if no value is explicitly provided
         default: 'yes'
         # Input has to be provided for the workflow to run
@@ -46,7 +43,6 @@ jobs:
         
         echo 开始编译时间 >> /opt/images/readme.txt
         TZ='Asia/Shanghai'  date  '+%Y-%m-%d %H:%M:%S' >> /opt/images/readme.txt
-        
         
     - name: 准备编译环境
       if: true
@@ -111,7 +107,7 @@ jobs:
         path: /opt/images
         
     - name: 发布到Release
-      if: ${{ github.event.inputs.TO_RELEASE }} == yes
+      if: ${{ github.event.inputs.release }} == yes
       uses: softprops/action-gh-release@v1
       with:
         name: K2P+K2_${{ env.RELEASE_VERSION }}
