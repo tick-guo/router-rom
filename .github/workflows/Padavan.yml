@@ -35,6 +35,8 @@ jobs:
     steps:    
     - name: 生成版本号
       run: |
+        whoami
+        id
         echo 接收到的输入参数:
         echo "${{ github.event.inputs.production }}"
         echo "${{ github.event.inputs.release }}"
@@ -45,6 +47,7 @@ jobs:
         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
         # $GITHUB_ENV变量必须要在下一个流程才生效
         echo "DIR=/opt/rt-n56u" >> $GITHUB_ENV
+        ip addr
 
     - name: 创建目录
       run: |
@@ -98,6 +101,8 @@ jobs:
         #记录一个版本号
         echo 完成编译时间 >> /opt/images/readme.txt
         TZ='Asia/Shanghai'  date  '+%Y-%m-%d %H:%M:%S' >> /opt/images/readme.txt
+        
+        echo  >> /opt/images/readme.txt
         echo 编译版本 >> /opt/images/readme.txt
         
         pushd ${{ env.DIR }}
@@ -105,6 +110,7 @@ jobs:
         git log -1 >> /opt/images/readme.txt
         popd
         
+        echo  >> /opt/images/readme.txt
         echo md5校验值 >> /opt/images/readme.txt
         cd /opt/images
         #测试
@@ -112,7 +118,7 @@ jobs:
         ls -l
         
         
-    - name : 上传编译的固件,到临时目录
+    - name : 上传编译的固件Artifacts
       uses: actions/upload-artifact@v2
       if: true
       with:
