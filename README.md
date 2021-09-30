@@ -2,12 +2,12 @@
 https://github.com/tick-guo/router-rom
 
 ![workflow](https://github.com/tick-guo/router-rom/actions/workflows/Padavan.yml/badge.svg)
-![GitHub all releases](https://img.shields.io/github/downloads/tick-guo/router-rom/total?label=%E4%B8%8B%E8%BD%BD%E9%87%8F)
-![GitHub repo size](https://img.shields.io/github/repo-size/tick-guo/router-rom?label=%E5%BA%93%E5%A4%A7%E5%B0%8F)
+![GitHub all releases](https://img.shields.io/github/downloads/tick-guo/router-rom/total?label=下载量)
+![GitHub repo size](https://img.shields.io/github/repo-size/tick-guo/router-rom?label=库大小)
 
-![](https://img.shields.io/github/last-commit/tick-guo/router-rom?label=%E6%9C%80%E8%BF%91%E6%8F%90%E4%BA%A4)
-![GitHub Release Date](https://img.shields.io/github/release-date/tick-guo/router-rom?label=%E6%9C%80%E6%96%B0%E5%8F%91%E5%B8%83)
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tick-guo/router-rom?label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC)](https://github.com/tick-guo/router-rom/releases)
+![](https://img.shields.io/github/last-commit/tick-guo/router-rom?label=最近提交)
+![GitHub Release Date](https://img.shields.io/github/release-date/tick-guo/router-rom?label=最新发布)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tick-guo/router-rom?label=最新版本)](https://github.com/tick-guo/router-rom/releases)
 
 # router-rom
 K2 K2P 
