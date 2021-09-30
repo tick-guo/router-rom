@@ -36,11 +36,11 @@ jobs:
     - name: 生成版本号
       run: |
         echo 接收到的输入参数:
-        echo ${{ github.event.inputs.release }}
-        echo ${{ github.event.inputs.production }}
+        echo "${{ github.event.inputs.production }}"
+        echo "${{ github.event.inputs.release }}"
         echo 
         echo 当前目录:$(pwd)
-        echo "统一版本号"
+        # 版本号
         VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d.%H%M)
         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
         # $GITHUB_ENV变量必须要在下一个流程才生效
@@ -75,8 +75,11 @@ jobs:
       if: true
       env: 
         #用空格分隔型号,循环编译
-        TNAME: ${{ github.event.inputs.production }}
+        TNAME: "${{ github.event.inputs.production }}"
       run: |
+        if [ "$TNAME" == "" ];then
+          exit 0
+        fi
         for m in $TNAME;
         do
           echo "::group::编译 ${m}"
