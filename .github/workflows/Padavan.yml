@@ -1,6 +1,5 @@
 # This is a basic workflow that is manually triggered
 
-#name: Padavan固件编译
 name: Padavan固件编译
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
@@ -8,14 +7,17 @@ name: Padavan固件编译
 on:
   workflow_dispatch:
     # Inputs the workflow accepts.
-    #inputs:
-      #name:
+    inputs:
+      TO_RELEASE:
         # Friendly description to be shown in the UI instead of 'name'
-        #description: '路由器目标'
+        description: |
+          '是否需要发布到release'
+          ' yes:需要,默认参数'
+          ' 其他参数:不需要'
         # Default value if no value is explicitly provided
-        #default: 'K2P'
+        default: 'yes'
         # Input has to be provided for the workflow to run
-        #required: true
+        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,15 +27,10 @@ jobs:
     runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    # Runs a single command using the runners shell
-    - name: 开始自动编译 K2P 和 K2
-      run: |
-        echo "目标 ${{ github.event.inputs.name }}"
-        pwd
-      
+    steps:    
     - name: 生成版本号
       run: |
+        echo 当前目录:$(pwd)
         echo "统一版本号"
         VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d.%H%M)
         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
@@ -59,39 +56,31 @@ jobs:
         texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev \
         libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin  > /dev/null
   
-    - name: 下载源码,从hanwckf
+    - name: 下载源码
       run: |
         git clone --depth=1 https://github.com/hanwckf/rt-n56u.git ${{ env.DIR }}  > /dev/null
         cd ${{ env.DIR }}/toolchain-mipsel
         sh dl_toolchain.sh > /dev/null
-     
         pwd
-    
-    - name: 开始编译 K2P
-      if: true
-      env: 
-        TNAME: K2P
-      run: |
-        echo configs/templates/${TNAME}.config
-        cd ${{ env.DIR }}/trunk
-  
-        sudo ./clear_tree || echo 
-        sudo ./build_firmware_modify ${TNAME}    > /dev/null
-        ls -l images
-        sudo mv -f images/*.trx /opt/images/
 
-    - name: 开始编译 K2, 也就是PSG1218
+    - name: 开始编译
       if: true
       env: 
-        TNAME: PSG1218
+        #用空格分隔型号,循环编译
+        TNAME: "K2P PSG1218"
       run: |
-        echo configs/templates/${TNAME}.config
-        cd ${{ env.DIR }}/trunk
-  
-        sudo ./clear_tree || echo 
-        sudo ./build_firmware_modify ${TNAME}    > /dev/null
-        ls -l images
-        sudo mv -f images/*.trx /opt/images/
+        for m in $TNAME;
+        do
+        
+          echo 编译:${m}
+          cd ${{ env.DIR }}/trunk
+
+          sudo ./clear_tree || echo 
+          sudo ./build_firmware_modify ${m}    > /dev/null
+          ls -l images
+          sudo mv -f images/*.trx /opt/images/
+        
+        done
       
     - name: 收集信息
       if: true
@@ -118,11 +107,11 @@ jobs:
       uses: actions/upload-artifact@v2
       if: true
       with:
-        name: 固件下载
+        name: ${{ env.RELEASE_VERSION }}
         path: /opt/images
         
     - name: 发布到Release
-      if: true
+      if: ${{ github.event.inputs.TO_RELEASE }} == yes
       uses: softprops/action-gh-release@v1
       with:
         name: K2P+K2_${{ env.RELEASE_VERSION }}
