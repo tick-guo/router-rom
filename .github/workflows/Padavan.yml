@@ -35,6 +35,10 @@ jobs:
     steps:    
     - name: 生成版本号
       run: |
+        echo 接收到的输入参数:
+        echo ${{ github.event.inputs.release }}
+        echo ${{ github.event.inputs.production }}
+        echo 
         echo 当前目录:$(pwd)
         echo "统一版本号"
         VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d.%H%M)
