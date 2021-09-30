@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
-#留一个空格,因为状态标签,跟pass重叠
-name: 'Padavan固件编译 '
+
+name: Padavan固件编译.
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
