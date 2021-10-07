@@ -73,6 +73,16 @@ jobs:
         cd ${{ env.DIR }}/toolchain-mipsel
         sh dl_toolchain.sh > /dev/null
         pwd
+        
+    - name: 路由器页面下加入编译时间和个人信息标签
+      if: true
+      run: | 
+        cd ${{ env.DIR }}/trunk
+        valtime=$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M')
+        val2="\\1 footer_code +='编译日期 $valtime by <a href=\"https://github.com/tick-guo/router-rom\" target=\"blank\">tick-guo</a> \& <a href=\"https://www.right.com.cn/forum/thread-5853731-1-1.html\" target=\"blank\">恩山论坛</a><br>';"
+        #echo $val2
+        sed -i "s#\(.*Non-Commercial Use Only[^;]*;\).*#$val2#" user/www/n56u_ribbon_fixed/state.js
+        grep "Non-Commercial Use Only" user/www/n56u_ribbon_fixed/state.js
 
     - name: 开始编译
       if: true
@@ -129,7 +139,7 @@ jobs:
       if: ${{ github.event.inputs.release == 'yes' }}
       uses: softprops/action-gh-release@v1
       with:
-        name: K2P+K2_${{ env.RELEASE_VERSION }}
+        name: ${{ github.event.inputs.production }}_${{ env.RELEASE_VERSION }}
         tag_name: ${{ env.RELEASE_VERSION }}
         body_path: /opt/images/readme.txt
         draft: false
