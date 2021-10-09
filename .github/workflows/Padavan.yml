@@ -14,14 +14,14 @@ on:
         # Default value if no value is explicitly provided
         default: "K2P PSG1218"
         # Input has to be provided for the workflow to run
-        required: true
+        required: false
       release:
         # Friendly description to be shown in the UI instead of 'name'
         description: 是否需要发布到Release?(不发布也可以到Artifacts下载)
         # Default value if no value is explicitly provided
         default: 'yes'
         # Input has to be provided for the workflow to run
-        required: true
+        required: false
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -42,19 +42,20 @@ jobs:
         echo "${{ github.event.inputs.release }}"
         echo 
         echo 当前目录:$(pwd)
-        # 版本号
+        # 版本号,用日期
         VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d.%H%M)
-        echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
         # $GITHUB_ENV变量必须要在下一个流程才生效
         echo "DIR=/opt/rt-n56u" >> $GITHUB_ENV
+        val1="${{ github.event.inputs.production }}"
+        val2=$(echo $val1 | sed 's/ /+/')
+        echo "NAME=${val2}_$VERSION" >> $GITHUB_ENV
         ip addr
 
     - name: 创建目录
       run: |
-        echo ${{ env.RELEASE_VERSION }}
-        mkdir -p ${{ env.DIR }}
-        sudo mkdir -p /opt/images/
-        sudo chmod 777 /opt/images/
+        echo ${{ env.NAME }}
+        sudo mkdir -m 777 -p ${{ env.DIR }}
+        sudo mkdir -m 777 -p /opt/images/
         
         echo 开始编译时间 >> /opt/images/readme.txt
         TZ='Asia/Shanghai'  date  '+%Y-%m-%d %H:%M:%S' >> /opt/images/readme.txt
@@ -132,15 +133,15 @@ jobs:
       uses: actions/upload-artifact@v2
       if: true
       with:
-        name: ${{ env.RELEASE_VERSION }}
+        name: ${{ env.NAME }}
         path: /opt/images
         
     - name: 发布到Release
       if: ${{ github.event.inputs.release == 'yes' }}
       uses: softprops/action-gh-release@v1
       with:
-        name: ${{ github.event.inputs.production }}_${{ env.RELEASE_VERSION }}
-        tag_name: ${{ env.RELEASE_VERSION }}
+        name: ${{ env.NAME }}
+        tag_name: ${{ env.NAME }}
         body_path: /opt/images/readme.txt
         draft: false
         prerelease: false
