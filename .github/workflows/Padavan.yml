@@ -44,6 +44,7 @@ jobs:
         echo 当前目录:$(pwd)
         # 版本号,用日期
         VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d.%H%M)
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
         # $GITHUB_ENV变量必须要在下一个流程才生效
         echo "DIR=/opt/rt-n56u" >> $GITHUB_ENV
         val1="${{ github.event.inputs.production }}"
@@ -124,6 +125,12 @@ jobs:
         echo  >> /opt/images/readme.txt
         echo md5校验值 >> /opt/images/readme.txt
         cd /opt/images
+        #为固件文件名加上日期
+        for i in *.trx
+        do
+          #echo org $i
+          mv -v "$i" "${i%.*}-${{ env.VERSION }}.trx"
+        done
         #测试
         md5sum *.trx >> /opt/images/readme.txt || echo
         ls -l
