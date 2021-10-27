@@ -43,18 +43,21 @@ jobs:
         echo 
         echo 当前目录:$(pwd)
         # 版本号,用日期
-        VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d.%H%M)
+        VERSION=$(TZ='Asia/Shanghai' date +%Y%m%d%H%M)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         # $GITHUB_ENV变量必须要在下一个流程才生效
         echo "DIR=/opt/rt-n56u" >> $GITHUB_ENV
         val1="${{ github.event.inputs.production }}"
-        val2=$(echo $val1 | sed 's/ /+/')
-        echo "NAME=${val2}_$VERSION" >> $GITHUB_ENV
+        val2=$(echo $val1 | sed 's/ /-/')
+        echo "NAME=$VERSION+${val2}" >> $GITHUB_ENV
+        #让版本号符合版本规范 1.0.202110252117+K2P-PSG1218
+        echo "TAG=1.0.$VERSION+${val2}" >> $GITHUB_ENV
         ip addr
 
     - name: 创建目录
       run: |
         echo ${{ env.NAME }}
+        echo ${{ env.TAG }}
         sudo mkdir -m 777 -p ${{ env.DIR }}
         sudo mkdir -m 777 -p /opt/images/
         
@@ -148,7 +151,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ env.NAME }}
-        tag_name: ${{ env.NAME }}
+        tag_name: ${{ env.TAG }}
         body_path: /opt/images/readme.txt
         draft: false
         prerelease: false
