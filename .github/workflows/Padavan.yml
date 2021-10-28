@@ -51,6 +51,7 @@ jobs:
         val2=$(echo $val1 | sed 's/ /-/')
         echo "NAME=$VERSION+${val2}" >> $GITHUB_ENV
         #让版本号符合版本规范 1.0.202110252117+K2P-PSG1218
+        # 2021.10.28-2133+K2P-PSG1218
         echo "TAG=v$VERSION+${val2}" >> $GITHUB_ENV
         ip addr
 
