@@ -9,6 +9,9 @@ https://github.com/tick-guo/router-rom
 ![GitHub Release Date](https://img.shields.io/github/release-date/tick-guo/router-rom?label=最新发布)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tick-guo/router-rom?label=最新版本)](https://github.com/tick-guo/router-rom/releases)
 
+# 
+https://github.com/hanwckf/rt-n56u.git
+
 # router-rom
 K2 K2P 
  
