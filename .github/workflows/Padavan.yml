@@ -17,8 +17,11 @@ on:
         required: false
       release:
         # Friendly description to be shown in the UI instead of 'name'
+        #无法换行
         #description: "是否需要发布到Release?\n(不发布也可以到Artifacts下载)"
-        description: "是否需要发布到Release?"
+        #缩短长度还是解决不了手机页面的显示超出
+        #description: "是否需要发布到Release?"
+        description: "是否需要发布到Release? (不发布也可以到Artifacts下载)"
         # Default value if no value is explicitly provided
         default: 'yes'
         # Input has to be provided for the workflow to run
