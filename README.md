@@ -17,7 +17,11 @@ K2 K2P
  
 # 下载
  1. 本项目自动编译的固件在 [**release**](https://github.com/tick-guo/router-rom/releases) 位置
- 2. 这个位置 [padavan-hanwckf/2021.09.23](https://github.com/tick-guo/router-rom/tree/20211007.2318/padavan-hanwckf/2021.09.23) 是原来自己搭建本地环境编译的固件.
+ 2. 默认用户,密码
+ ```
+ admin
+ admin
+ ```
 # 你也可以自动编译
  1. fork本项目
  2. 在自己的代码库的 **Actions** 中执行 **Padavan固件编译工作流** 
