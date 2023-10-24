@@ -12,7 +12,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 设置编译的固件型号,空格分隔.
         # Default value if no value is explicitly provided
-        default: "K2P PSG1218"
+        default: "K2P"
         # Input has to be provided for the workflow to run
         required: false
       release:
